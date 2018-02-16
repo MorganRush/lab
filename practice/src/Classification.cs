@@ -9,40 +9,38 @@ namespace practice.src
     public static class Classification
     {
         public static void DoFilterMonotony(this TableFunction tableFunction)
-        {
-            int length = tableFunction.x.Length;
-            double lastXStart = tableFunction.x[0];
+        {   
+            int length = tableFunction.y.Length;
+            double lastYStart = tableFunction.y[0];
             Monotony lastMonotony;
             Monotony monotony;
-        
-            if (tableFunction.y[0] < tableFunction.y[1])
-                lastMonotony = Monotony.decreases;
-            else if (tableFunction.y[0] == tableFunction.y[1])
-                lastMonotony = Monotony.constant;
-            else
-                lastMonotony = Monotony.increases;
 
-            //tableFunction.cutsMonotonies.Add(new CutMomotony(tableFunction.x[0], tableFunction.x[1], lastMonotony));
+            lastMonotony = CheckMonotony(tableFunction.y[0], tableFunction.y[1]);
 
             for(int i = 2; i < length; i++)
             {
-                if (tableFunction.x[i - 1] < tableFunction.x[i])
-                    monotony = Monotony.decreases;
-                else if (tableFunction.x[i - 1] == tableFunction.x[i])
-                    monotony = Monotony.constant;
-                else
-                    monotony = Monotony.increases;
+                monotony = CheckMonotony(tableFunction.y[i-1], tableFunction.y[i]);
 
                 if (lastMonotony == monotony)
                     continue;
                 else
                 {
-                    tableFunction.cutsMonotonies.Add(new CutMomotony(lastXStart, tableFunction.x[i-1], lastMonotony));
+                    tableFunction.cutsMonotonies.Add(new CutMomotony(lastYStart, tableFunction.y[i-1], lastMonotony));
                     lastMonotony = monotony;
-                    lastXStart = tableFunction.x[i];
+                    lastYStart = tableFunction.y[i];
                 }
             }
-            tableFunction.cutsMonotonies.Add(new CutMomotony(lastXStart, tableFunction.x[length - 1], lastMonotony));
+            tableFunction.cutsMonotonies.Add(new CutMomotony(lastYStart, tableFunction.y[length - 1], lastMonotony));
+        }
+        
+        private static Monotony CheckMonotony(double start, double end)
+        {
+            if (start < end)
+                return Monotony.decreases;
+            else if (start == end)
+                return Monotony.constant;
+            else
+                return Monotony.increases;
         }
     }
 }

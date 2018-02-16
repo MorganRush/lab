@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace practice.src
 {
+    public enum Monotony { decreases, constant, increases };
+    public enum BulgeAndСoncavity { bugle, concavity, nothing };
+
     public struct CutMomotony
     {
         double xStart;
