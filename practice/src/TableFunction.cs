@@ -9,7 +9,7 @@ using practice.src.lab3;
 namespace practice.src
 {
     public enum Monotony { decreases, constant, increases };
-    public enum BulgeAndСoncavity { bugle, concavity };
+    public enum BulgeAndСoncavity { bugle, concavity, inflection };
 
     public struct CutBugleAndConcavity
     {
@@ -48,7 +48,7 @@ namespace practice.src
         public double[] CoefficientD { get; set; }
 
         public List<CutMomotony> cutsMonotonies;
-        public BulgeAndСoncavity bulgeAndСoncavity;
+        public List<CutBugleAndConcavity> cutsBulgeAndСoncavity;
 
         public TableFunction(double[] x, double[] y)
         {

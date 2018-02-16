@@ -8,15 +8,50 @@ namespace practice.src
 {
     public static class Classification
     {
+        const int cut = 10;
+
         public static void DoFilterBulgeAndСoncavity(this TableFunction tableFunction)
         {
-            int length = tableFunction.X.Length;
+            int length = tableFunction.CoefficientA.Length;
             double lastXStart = tableFunction.X[0];
             Func<double, double> func = x => (tableFunction.CoefficientD[0] * 6 * x + tableFunction.CoefficientC[0] * 2);
-            BulgeAndСoncavity lastBulgeAndСoncavity;
-      
-            BulgeAndСoncavity bulgeAndСoncavity;
+            BulgeAndСoncavity lastBulgeAndСoncavity = CheckBulgeAndСoncavity(tableFunction.Y[0]);
 
+            if (lastBulgeAndСoncavity == BulgeAndСoncavity.inflection)
+                lastBulgeAndСoncavity = CheckBulgeAndСoncavity(tableFunction.X[0] +
+                    (tableFunction.X[1] - tableFunction.X[0]) / cut);
+            BulgeAndСoncavity bulgeAndСoncavity = lastBulgeAndСoncavity;
+
+            for (int i = 1; i < length; i++)
+            {
+                double delta = (tableFunction.X[i] - tableFunction.X[i-1]) / cut;
+                for (int j = i; j < 10; j++)
+                {
+                    bulgeAndСoncavity = CheckBulgeAndСoncavity(func(tableFunction.X[j - 1] + j * delta));
+                    if (lastBulgeAndСoncavity == bulgeAndСoncavity)
+                        continue;
+                    else
+                    {
+                        tableFunction.cutsBulgeAndСoncavity.Add(new CutBugleAndConcavity(lastXStart,
+                            tableFunction.X[j - 1] + j * delta / 2, lastBulgeAndСoncavity));
+                        lastBulgeAndСoncavity = bulgeAndСoncavity;
+                        lastXStart = tableFunction.X[j - 1] + j * delta / 2;
+                    }
+                }
+                func = x => (tableFunction.CoefficientD[i] * 6 * x + tableFunction.CoefficientC[i] * 2);
+            }
+            tableFunction.cutsBulgeAndСoncavity.Add(new CutBugleAndConcavity(lastXStart,
+                tableFunction.X[length], lastBulgeAndСoncavity));
+        }
+
+        private static BulgeAndСoncavity CheckBulgeAndСoncavity(double y)
+        {
+            if (y < 0)
+                return BulgeAndСoncavity.bugle;
+            else if (y == 0)
+                return BulgeAndСoncavity.inflection;
+            else
+                return BulgeAndСoncavity.concavity;
         }
 
         public static void DoFilterMonotony(this TableFunction tableFunction)
