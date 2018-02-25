@@ -9,11 +9,11 @@ namespace practice.src.firstPart
 {
     public class СlassifierUDK
     {
-        public Article root;
+        public Root root;
         
         public void CreateTree()
         {
-            root = new Article("root", "root", "root", null);
+            root = Root.getRoot();
         }
 
         public Article FindElement(String identifier, Article startSearch)
@@ -43,7 +43,7 @@ namespace practice.src.firstPart
             String identifier = article.Identifier;
             int length = identifier.Length;
             int indexPoint = identifier.IndexOf(".");
-            Article element = root;
+            Article element = root.Article;
             if (indexPoint != -1)
             {
                 String[] array = identifier.Split('.');

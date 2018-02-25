@@ -10,17 +10,17 @@ namespace practice.src.firstPart
     {
         private static Root root;
 
-        public List<Article> References { get; set; }
+        public Article Article { get; private set; }
 
-        private Root(List<Article> References)
+        private Root()
         {
-            this.References = References;
+            Article = new Article("root", "root", "root", null);
         }
 
-        public static Root getRoot(List<Article> References)
+        public static Root getRoot()
         {
             if (root == null)
-                root = new Root(References);
+                root = new Root();
             return root;
         }
     }
