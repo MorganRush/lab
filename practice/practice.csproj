@@ -45,6 +45,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\Classification.cs" />
+    <Compile Include="src\firstPart\Article.cs" />
+    <Compile Include="src\firstPart\Root.cs" />
+    <Compile Include="src\firstPart\СlassifierUDK.cs" />
+    <Compile Include="src\lab3\IFunctionContent.cs" />
+    <Compile Include="src\lab3\Interpolation.cs" />
     <Compile Include="src\TableFunction.cs" />
   </ItemGroup>
   <ItemGroup>

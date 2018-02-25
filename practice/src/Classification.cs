@@ -10,11 +10,14 @@ namespace practice.src
     {
         const int cut = 10;
 
+
+
         public static void DoFilterBulgeAndСoncavity(this TableFunction tableFunction)
         {
             int length = tableFunction.CoefficientA.Length;
             double lastXStart = tableFunction.X[0];
-            Func<double, double> func = x => (tableFunction.CoefficientD[0] * 6 * x + tableFunction.CoefficientC[0] * 2);
+            Func<double, double> func = x => 
+            (tableFunction.CoefficientD[0] * 6 * x + tableFunction.CoefficientC[0] * 2);
             BulgeAndСoncavity lastBulgeAndСoncavity = CheckBulgeAndСoncavity(tableFunction.Y[0]);
 
             if (lastBulgeAndСoncavity == BulgeAndСoncavity.inflection)
@@ -69,12 +72,14 @@ namespace practice.src
                     continue;
                 else
                 {
-                    tableFunction.cutsMonotonies.Add(new CutMomotony(lastXStart, tableFunction.X[i-1], lastMonotony));
+                    tableFunction.cutsMonotonies.Add(new CutMomotony(lastXStart, tableFunction.X[i-1], 
+                        lastMonotony));
                     lastMonotony = monotony;
                     lastXStart = tableFunction.X[i];
                 }
             }
-            tableFunction.cutsMonotonies.Add(new CutMomotony(lastXStart, tableFunction.X[length - 1], lastMonotony));
+            tableFunction.cutsMonotonies.Add(new CutMomotony(lastXStart, tableFunction.X[length - 1], 
+                lastMonotony));
         }
         
         private static Monotony CheckMonotony(double yStart, double yEnd)
